@@ -1,0 +1,30 @@
+{
+    "name": "",
+    "description": "Cron bundle",
+    "authors": [
+        {
+            "name": "",
+            "email": ""
+        }
+    ],
+    "license": "",
+    "autoload": {
+        "psr-4": {
+            "EzSystems\\Cron\\": "lib",
+            "EzSystems\\Cron\\Tests\\": "tests/Cron",
+            "EzSystems\\CronBundle\\": "bundle",
+            "EzSystems\\CronBundle\\Tests\\": "tests/CronBundle"
+        }
+    },
+    "require": {
+        "cron/cron": "^1.0.9"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.7.0"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    }
+}

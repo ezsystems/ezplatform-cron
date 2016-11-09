@@ -1,0 +1,8 @@
+parameters:
+    ezpublish.cron.registry.cronjobs.class: EzSystems\CronBundle\Registry\CronJobsRegistry
+
+services:
+    ezpublish.cron.registry.cronjobs:
+        class: '%ezpublish.cron.registry.cronjobs.class%'
+        arguments:
+            - '%kernel.environment%'
