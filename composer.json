@@ -1,13 +1,13 @@
 {
-    "name": "",
+    "name": "ezsystems/ezstudio-cron",
     "description": "Cron bundle",
     "authors": [
         {
-            "name": "",
-            "email": ""
+            "name": "eZ Systems",
+            "email": "dev-team@ez.no"
         }
     ],
-    "license": "",
+    "license": "TTL-2.0",
     "autoload": {
         "psr-4": {
             "EzSystems\\Cron\\": "lib",
