@@ -1,6 +1,7 @@
 {
     "name": "ezsystems/ezstudio-cron",
     "description": "Cron bundle",
+    "type": "ezstudio-bundle",
     "authors": [
         {
             "name": "eZ Systems",
