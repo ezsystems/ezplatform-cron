@@ -20,6 +20,7 @@
         "cron/cron": "^1.0.9"
     },
     "require-dev": {
+        "friendsofphp/php-cs-fixer": "~2.7.1",
         "phpunit/phpunit": "~4.7.0"
     },
     "extra": {
