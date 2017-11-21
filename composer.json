@@ -21,7 +21,11 @@
         "cron/cron": "^1.0.9"
     },
     "require-dev": {
+        "friendsofphp/php-cs-fixer": "~2.7.1",
         "phpunit/phpunit": "~4.7.0"
+    },
+    "scripts": {
+        "fix-cs": "@php ./vendor/bin/php-cs-fixer fix -v --show-progress=estimating"
     },
     "extra": {
         "branch-alias": {
