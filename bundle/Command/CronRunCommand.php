@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
 namespace EzSystems\CronBundle\Command;
 
 use Cron\Cron;
@@ -18,7 +21,7 @@ class CronRunCommand extends ContainerAwareCommand
             ->setDefinition([
                 new InputOption('category', null, InputOption::VALUE_REQUIRED, 'Job category to run', 'default'),
             ])
-            ->setName('ezpublish:cron:run')
+            ->setName('ezplatform:cron:run')
             ->setDescription('Perform one-time cron tasks run.')
             ->setHelp(
                 <<<EOT
@@ -31,7 +34,7 @@ EOT
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $registry = $this->getContainer()->get('ezpublish.cron.registry.cronjobs');
+        $registry = $this->getContainer()->get('ezplatform.cron.registry.cronjobs');
 
         $category = $input->getOption('category');
         $cronJobs = $registry->getCategoryCronJobs($category);
