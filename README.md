@@ -16,12 +16,6 @@ Example for Linux crontab (`crontab -e`):
 ```bash
 * * * * * /path/to/php app/console ezplatform:cron:run [ --category=default] >/dev/null 2>&1
 ```
-
-#### Tip: locking
-
-To avoid several cron jobs running in parallel on longer running cron commands, use for instance one of the following:
-- [flock](http://manpages.ubuntu.com/manpages/bionic/en/man1/flock.1.html), e.g. `flock -n /tmp/myezinstall.lock /path/to/php (..)`.
-- [run-one](http://manpages.ubuntu.com/manpages/bionic/en/man1/run-one.1.html), e.g. `run-one /path/to/php (..)`.
     
 
 
