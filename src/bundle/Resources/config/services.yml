@@ -1,5 +1,5 @@
 parameters:
-    ezplatform.cron.registry.cronjobs.class: EzSystems\CronBundle\Registry\CronJobsRegistry
+    ezplatform.cron.registry.cronjobs.class: EzSystems\EzPlatformCronBundle\Registry\CronJobsRegistry
 
 services:
     ezplatform.cron.registry.cronjobs:

@@ -3,7 +3,7 @@
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace EzSystems\CronBundle\Command;
+namespace EzSystems\EzPlatformCronBundle\Command;
 
 use Cron\Cron;
 use Cron\Executor\Executor;
