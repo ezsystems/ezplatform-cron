@@ -1,19 +1,25 @@
 {
-    "name": "ezsystems/ezstudio-cron",
-    "description": "Cron bundle",
-    "type": "ezstudio-bundle",
+    "name": "ezsystems/ezplatform-cron",
+    "description": "Simple cron bundle for eZ Platform",
+    "homepage": "https://github.com/ezsystems/ezplatform-cron",
+    "license": "GPL-2.0-only",
+    "type": "ezplatform-bundle",
     "authors": [
         {
-            "name": "eZ Systems",
-            "email": "dev-team@ez.no"
+            "name": "eZ dev-team & eZ Community",
+            "homepage": "https://github.com/ezsystems/ezplatform-cron/contributors"
         }
     ],
-    "license": "TTL-2.0",
+    "replace": {
+        "ezsystems/ezstudio-cron": "*"
+    },
     "autoload": {
         "psr-4": {
-            "EzSystems\\Cron\\": "lib",
-            "EzSystems\\Cron\\Tests\\": "tests/Cron",
-            "EzSystems\\CronBundle\\": "bundle",
+            "EzSystems\\CronBundle\\": "bundle"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
             "EzSystems\\CronBundle\\Tests\\": "tests/CronBundle"
         }
     },
@@ -22,14 +28,14 @@
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "~2.7.1",
-        "phpunit/phpunit": "~4.7.0"
+        "phpunit/phpunit": "^6.4 || ^7.0"
     },
     "scripts": {
         "fix-cs": "@php ./vendor/bin/php-cs-fixer fix -v --show-progress=estimating"
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.1.x-dev"
+            "dev-master": "2.0.x-dev"
         }
     }
 }

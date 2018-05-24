@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
 namespace EzSystems\CronBundle\DependencyInjection\Compiler;
 
 use EzSystems\CronBundle\Registry\CronJobsRegistry;
@@ -16,12 +19,12 @@ class CronJobCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->has('ezpublish.cron.registry.cronjobs')) {
+        if (!$container->has('ezplatform.cron.registry.cronjobs')) {
             return;
         }
 
-        $registry = $container->findDefinition('ezpublish.cron.registry.cronjobs');
-        $cronJobs = $container->findTaggedServiceIds('ezpublish.cron.job');
+        $registry = $container->findDefinition('ezplatform.cron.registry.cronjobs');
+        $cronJobs = $container->findTaggedServiceIds('ezplatform.cron.job');
 
         foreach ($cronJobs as $id => $tags) {
             foreach ($tags as $cronJob) {
