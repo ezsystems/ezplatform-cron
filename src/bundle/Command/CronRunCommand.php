@@ -8,13 +8,24 @@ namespace EzSystems\EzPlatformCronBundle\Command;
 use Cron\Cron;
 use Cron\Executor\Executor;
 use Cron\Resolver\ArrayResolver;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use EzSystems\EzPlatformCronBundle\Registry\CronJobsRegistry;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CronRunCommand extends ContainerAwareCommand
+class CronRunCommand extends Command
 {
+    /** @var \EzSystems\EzPlatformCronBundle\Registry\CronJobsRegistry */
+    private $cronJobsRegistry;
+
+    public function __construct(CronJobsRegistry $cronJobsRegistry, ?string $name = null)
+    {
+        parent::__construct($name);
+
+        $this->cronJobsRegistry = $cronJobsRegistry;
+    }
+
     protected function configure()
     {
         $this
@@ -34,10 +45,8 @@ EOT
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $registry = $this->getContainer()->get('ezplatform.cron.registry.cronjobs');
-
         $category = $input->getOption('category');
-        $cronJobs = $registry->getCategoryCronJobs($category);
+        $cronJobs = $this->cronJobsRegistry->getCategoryCronJobs($category);
 
         $resolver = new ArrayResolver($cronJobs);
 

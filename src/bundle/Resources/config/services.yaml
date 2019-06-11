@@ -2,7 +2,17 @@ parameters:
     ezplatform.cron.registry.cronjobs.class: EzSystems\EzPlatformCronBundle\Registry\CronJobsRegistry
 
 services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
     ezplatform.cron.registry.cronjobs:
         class: '%ezplatform.cron.registry.cronjobs.class%'
         arguments:
             - '%kernel.environment%'
+
+    EzSystems\EzPlatformCronBundle\Command\CronRunCommand:
+        arguments:
+            $cronJobsRegistry: '@ezplatform.cron.registry.cronjobs'
+        tags:
+            - { name: 'console.command', command: 'ezplatform:cron:run' }
