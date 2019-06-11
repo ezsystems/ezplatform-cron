@@ -24,6 +24,7 @@
         }
     },
     "require": {
+        "php": "^7.3",
         "cron/cron": "^1.4",
         "symfony/dependency-injection": "^4.3",
         "symfony/http-kernel": "^4.3",
