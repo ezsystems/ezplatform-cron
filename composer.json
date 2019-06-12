@@ -24,12 +24,16 @@
         }
     },
     "require": {
-        "cron/cron": "^1.0.9",
-        "symfony/symfony": "^3.4"
+        "php": "^7.3",
+        "cron/cron": "^1.4",
+        "symfony/dependency-injection": "^4.3",
+        "symfony/http-kernel": "^4.3",
+        "symfony/console": "^4.3",
+        "symfony/config": "^4.3",
+        "symfony/process": "^4.3"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "~2.7.1",
-        "phpunit/phpunit": "^6.4 || ^7.0"
+        "friendsofphp/php-cs-fixer": "~2.15.0"
     },
     "scripts": {
         "fix-cs": "@php ./vendor/bin/php-cs-fixer fix -v --show-progress=estimating"

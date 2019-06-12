@@ -1,8 +1,0 @@
-parameters:
-    ezplatform.cron.registry.cronjobs.class: EzSystems\EzPlatformCronBundle\Registry\CronJobsRegistry
-
-services:
-    ezplatform.cron.registry.cronjobs:
-        class: '%ezplatform.cron.registry.cronjobs.class%'
-        arguments:
-            - '%kernel.environment%'
