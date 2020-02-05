@@ -7,6 +7,7 @@ namespace EzSystems\EzPlatformCronBundle\Registry;
 
 use Cron\Job\ShellJob;
 use Cron\Schedule\CrontabSchedule;
+use eZ\Publish\Core\MVC\Symfony\SiteAccess;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Process\PhpExecutableFinder;
 
@@ -14,26 +15,42 @@ class CronJobsRegistry
 {
     const DEFAULT_CATEGORY = 'default';
 
+    /**
+     * @var array
+     */
     protected $cronJobs = [];
 
+    /**
+     * @var false|string
+     */
     protected $executable;
 
+    /**
+     * @var string
+     */
     protected $environment;
 
-    public function __construct($environment)
+    /**
+     * @var \eZ\Publish\Core\MVC\Symfony\SiteAccess
+     */
+    protected $siteaccess;
+
+    public function __construct(string $environment, SiteAccess $siteaccess)
     {
         $finder = new PhpExecutableFinder();
 
         $this->executable = $finder->find();
         $this->environment = $environment;
+        $this->siteaccess = $siteaccess;
     }
 
-    public function addCronJob(Command $command, $schedule, $category = self::DEFAULT_CATEGORY)
+    public function addCronJob(Command $command, string $schedule = null, string $category = self::DEFAULT_CATEGORY): void
     {
-        $command = sprintf('%s %s %s --env=%s',
+        $command = sprintf('%s %s %s --siteaccess=%s --env=%s',
             $this->executable,
             $_SERVER['SCRIPT_NAME'],
             $command->getName(),
+            $this->siteaccess->name,
             $this->environment
         );
 
@@ -44,7 +61,10 @@ class CronJobsRegistry
         $this->cronJobs[$category][] = $job;
     }
 
-    public function getCategoryCronJobs($category)
+    /**
+     * @return \Cron\Job\ShellJob[]
+     */
+    public function getCategoryCronJobs(string $category): array
     {
         if (!isset($this->cronJobs[$category])) {
             return [];
