@@ -10,6 +10,7 @@ services:
         class: '%ezplatform.cron.registry.cronjobs.class%'
         arguments:
             - '%kernel.environment%'
+            - '@ezpublish.siteaccess'
 
     EzSystems\EzPlatformCronBundle\Command\CronRunCommand:
         arguments:
