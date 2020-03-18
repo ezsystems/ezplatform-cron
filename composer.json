@@ -26,11 +26,11 @@
     "require": {
         "php": "^7.3",
         "cron/cron": "^1.4",
-        "symfony/dependency-injection": "^4.3",
-        "symfony/http-kernel": "^4.3",
-        "symfony/console": "^4.3",
-        "symfony/config": "^4.3",
-        "symfony/process": "^4.3"
+        "symfony/dependency-injection": "^5.0",
+        "symfony/http-kernel": "^5.0",
+        "symfony/console": "^5.0",
+        "symfony/config": "^5.0",
+        "symfony/process": "^5.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "~2.15.0"
