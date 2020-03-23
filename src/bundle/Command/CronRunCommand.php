@@ -1,8 +1,11 @@
 <?php
+
 /**
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
+
 namespace EzSystems\EzPlatformCronBundle\Command;
 
 use Cron\Cron;
@@ -14,7 +17,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CronRunCommand extends Command
+final class CronRunCommand extends Command
 {
     /** @var \EzSystems\EzPlatformCronBundle\Registry\CronJobsRegistry */
     private $cronJobsRegistry;
@@ -26,7 +29,7 @@ class CronRunCommand extends Command
         $this->cronJobsRegistry = $cronJobsRegistry;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDefinition([
@@ -43,7 +46,7 @@ EOT
             );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $category = $input->getOption('category');
         $cronJobs = $this->cronJobsRegistry->getCategoryCronJobs($category);
@@ -55,5 +58,7 @@ EOT
         $cron->setResolver($resolver);
 
         $cron->run();
+
+        return 0;
     }
 }
