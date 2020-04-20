@@ -28,7 +28,8 @@
         "symfony/symfony": "^3.4"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "~2.7.1",
+        "ezsystems/ezplatform-code-style": "^0.1.0",
+        "friendsofphp/php-cs-fixer": "^2.16.0",
         "phpunit/phpunit": "^6.4 || ^7.0"
     },
     "scripts": {
