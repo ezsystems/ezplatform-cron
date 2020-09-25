@@ -36,6 +36,11 @@ class CronJobsRegistry
      */
     protected $siteaccess;
 
+    /**
+     * @var string
+     */
+    protected $params;
+
     public function __construct(string $environment, SiteAccess $siteaccess)
     {
         $finder = new PhpExecutableFinder();
@@ -45,12 +50,13 @@ class CronJobsRegistry
         $this->siteaccess = $siteaccess;
     }
 
-    public function addCronJob(Command $command, string $schedule = null, string $category = self::DEFAULT_CATEGORY): void
+    public function addCronJob(Command $command, string $schedule = null, string $category = self::DEFAULT_CATEGORY, string $params = ''): void
     {
-        $command = sprintf('%s %s %s --siteaccess=%s --env=%s',
+        $command = sprintf('%s %s %s%s --siteaccess=%s --env=%s',
             $this->executable,
             $_SERVER['SCRIPT_NAME'],
             $command->getName(),
+            $params,
             $this->siteaccess->name,
             $this->environment
         );
