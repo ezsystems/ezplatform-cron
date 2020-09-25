@@ -39,15 +39,15 @@ class CronJobCompilerPass implements CompilerPassInterface
                     ? $cronJob['category']
                     : CronJobsRegistry::DEFAULT_CATEGORY;
 
-                $cronJob['params'] = isset($cronJob['params'])
-                    ? ' '.$cronJob['params']
+                $cronJob['options'] = isset($cronJob['options'])
+                    ? ' '.$cronJob['options']
                     : '';
 
                 $registry->addMethodCall('addCronJob', [
                     $reference,
                     $cronJob['schedule'],
                     $cronJob['category'],
-                    $cronJob['params'],
+                    $cronJob['options'],
                 ]);
             }
         }

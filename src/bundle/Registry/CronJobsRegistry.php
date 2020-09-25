@@ -39,7 +39,7 @@ class CronJobsRegistry
     /**
      * @var string
      */
-    protected $params;
+    protected $options;
 
     public function __construct(string $environment, SiteAccess $siteaccess)
     {
@@ -50,13 +50,13 @@ class CronJobsRegistry
         $this->siteaccess = $siteaccess;
     }
 
-    public function addCronJob(Command $command, string $schedule = null, string $category = self::DEFAULT_CATEGORY, string $params = ''): void
+    public function addCronJob(Command $command, string $schedule = null, string $category = self::DEFAULT_CATEGORY, string $options = ''): void
     {
         $command = sprintf('%s %s %s%s --siteaccess=%s --env=%s',
             $this->executable,
             $_SERVER['SCRIPT_NAME'],
             $command->getName(),
-            $params,
+            $options,
             $this->siteaccess->name,
             $this->environment
         );
