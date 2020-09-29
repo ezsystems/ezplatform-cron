@@ -1,5 +1,6 @@
 parameters:
     ezplatform.cron.registry.cronjobs.class: EzSystems\EzPlatformCronBundle\Registry\CronJobsRegistry
+    ezplatform.console.command.run.class: EzSystems\EzPlatformCronBundle\Command\CronRunCommand
 
 services:
     ezplatform.cron.registry.cronjobs:
@@ -7,3 +8,9 @@ services:
         arguments:
             - '%kernel.environment%'
             - '@ezpublish.siteaccess'
+            -
+    ezplatform.console.command.run:
+        class: '%ezplatform.console.command.run.class%'
+        tags:
+            - { name: console.command }
+            - { name: monolog.logger, channel: cronjob }

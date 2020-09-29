@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
 namespace EzSystems\EzPlatformCronBundle\Command;
@@ -14,9 +14,21 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 
 class CronRunCommand extends ContainerAwareCommand
 {
+    /**
+     * @var \Psr\Log\LoggerInterface
+     */
+    private $cronjobLogger;
+
+    public function __construct(LoggerInterface $cronjobLogger = null)
+    {
+        parent::__construct();
+        $this->logger = null !== $cronjobLogger ? $cronjobLogger : new NullLogger();
+    }
+
     protected function configure()
     {
         $this
@@ -49,24 +61,24 @@ EOT
 
         $reports = $cron->run();
 
-        while ($cron->isRunning()) {}
+        while ($cron->isRunning()) {
+        }
 
-        if($this->getContainer()->has('monolog.logger.cronjob')){
-            $logger = $this->getContainer()->get('monolog.logger.cronjob');
-            if($logger){
-                foreach ($reports->getReports() as $report) {
-                    $extraInfo = array(
-                        'command' => $report->getJob()->getProcess()->getCommandLine(),
-                        'exitCode' => $report->getJob()->getProcess()->getExitCode()
-                    );
-                    foreach($report->getOutput() as $reportOutput){
-                        $logger->info($reportOutput, $extraInfo);
-                    }
-                    if(!$report->isSuccessful()){
-                        foreach($report->getError() as $reportError){
-                            if(!empty(trim($reportError))){
-                                $logger->error(trim($reportError), $extraInfo);
-                            }
+        if ($this->logger) {
+            foreach ($reports->getReports() as $report) {
+                $process = $report->getJob()->getProcess();
+                $extraInfo = [
+                    'command' => $process->getCommandLine(),
+                    'exitCode' => $process->getExitCode(),
+                ];
+                foreach ($report->getOutput() as $reportOutput) {
+                    $this->logger->info($reportOutput, $extraInfo);
+                }
+                if (!$report->isSuccessful()) {
+                    foreach ($report->getError() as $reportError) {
+                        $reportError = trim($reportError);
+                        if (!empty($reportError)) {
+                            $this->logger->error($reportError, $extraInfo);
                         }
                     }
                 }
