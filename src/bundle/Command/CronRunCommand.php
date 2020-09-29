@@ -63,8 +63,10 @@ EOT
                         $logger->info($reportOutput, $extraInfo);
                     }
                     if(!$report->isSuccessful()){
-                        foreach($report->getError() as $reportError) {
-                            $logger->error($reportError, $extraInfo);
+                        foreach($report->getError() as $reportError){
+                            if(!empty(trim($reportError))){
+                                $logger->error(trim($reportError), $extraInfo);
+                            }
                         }
                     }
                 }
