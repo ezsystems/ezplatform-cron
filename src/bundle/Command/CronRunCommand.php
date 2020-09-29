@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Psr\Log\LoggerInterface;
 
 class CronRunCommand extends ContainerAwareCommand
 {
@@ -46,6 +47,28 @@ EOT
         $cron->setExecutor(new Executor());
         $cron->setResolver($resolver);
 
-        $cron->run();
+        $reports = $cron->run();
+
+        while ($cron->isRunning()) {}
+
+        if($this->getContainer()->has('monolog.logger.cronjobs')){
+            $logger = $this->getContainer()->get('monolog.logger.cronjobs');
+            if($logger){
+                foreach ($reports->getReports() as $report) {
+                    $extraInfo = array(
+                        'command' => $report->getJob()->getProcess()->getCommandLine(),
+                        'exitCode' => $report->getJob()->getProcess()->getExitCode()
+                    );
+                    foreach($report->getOutput() as $reportOutput){
+                        $logger->info($reportOutput, $extraInfo);
+                    }
+                    if(!$report->isSuccessful()){
+                        foreach($report->getError() as $reportError) {
+                            $logger->error($reportError, $extraInfo);
+                        }
+                    }
+                }
+            }
+        }
     }
 }
