@@ -43,6 +43,7 @@ class CronJobCompilerPass implements CompilerPassInterface
                     $reference,
                     $cronJob['schedule'],
                     $cronJob['category'],
+                    $cronJob['options'] ?? '',
                 ]);
             }
         }
