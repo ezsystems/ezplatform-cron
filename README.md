@@ -39,3 +39,19 @@ The tag takes the following arguments:
             - { name: console.command }
             - { name: ezplatform.cron.job, schedule: '* * * * *' }
 ```
+
+## Logging run command
+If you want to log outputs of commands processed by run command you have to add the monolog channel `cronjobs` to your configuration.
+
+### Example
+```yml
+    monolog:
+        channels: [...,'cronjobs']
+        handlers:    
+            cronjobs:
+                bubble: false
+                level: info
+                type: stream
+                path: '%kernel.logs_dir%/cronjobs.log'
+                channels: [cronjobs]
+```
