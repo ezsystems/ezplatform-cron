@@ -51,8 +51,8 @@ EOT
 
         while ($cron->isRunning()) {}
 
-        if($this->getContainer()->has('monolog.logger.cronjobs')){
-            $logger = $this->getContainer()->get('monolog.logger.cronjobs');
+        if($this->getContainer()->has('monolog.logger.cronjob')){
+            $logger = $this->getContainer()->get('monolog.logger.cronjob');
             if($logger){
                 foreach ($reports->getReports() as $report) {
                     $extraInfo = array(

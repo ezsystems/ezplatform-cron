@@ -41,17 +41,17 @@ The tag takes the following arguments:
 ```
 
 ## Logging run command
-If you want to log outputs of commands processed by run command you have to add the monolog channel `cronjobs` to your configuration.
+If you want to log outputs of commands processed by run command you have to add the monolog channel `cronjob` to your configuration.
 
 ### Example
 ```yml
     monolog:
-        channels: [...,'cronjobs']
+        channels: [...,'cronjob']
         handlers:    
-            cronjobs:
+            cronjob:
                 bubble: false
                 level: info
                 type: stream
-                path: '%kernel.logs_dir%/cronjobs.log'
-                channels: [cronjobs]
+                path: '%kernel.logs_dir%/cronjob.log'
+                channels: [cronjob]
 ```
