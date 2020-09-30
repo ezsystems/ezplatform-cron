@@ -62,6 +62,7 @@ EOT
         $reports = $cron->run();
 
         while ($cron->isRunning()) {
+            usleep(10000);
         }
 
         if ($this->logger) {
