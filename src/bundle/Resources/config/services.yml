@@ -11,6 +11,7 @@ services:
 
     ezplatform.console.command.run:
         class: '%ezplatform.console.command.run.class%'
+        arguments:
+            $logger: "@monolog.logger.cronjob"
         tags:
             - { name: console.command }
-            - { name: monolog.logger, channel: cronjob }

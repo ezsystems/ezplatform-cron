@@ -14,19 +14,21 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Psr\Log\LoggerInterface;
-use Psr\Log\NullLogger;
 
 class CronRunCommand extends ContainerAwareCommand
 {
     /**
      * @var \Psr\Log\LoggerInterface
      */
-    private $cronjobLogger;
+    private $logger;
 
-    public function __construct(LoggerInterface $cronjobLogger = null)
+    /**
+     * @injectService $logger @logger
+     */
+    public function __construct(LoggerInterface $logger = null)
     {
         parent::__construct();
-        $this->logger = null !== $cronjobLogger ? $cronjobLogger : new NullLogger();
+        $this->logger = $logger;
     }
 
     protected function configure()
