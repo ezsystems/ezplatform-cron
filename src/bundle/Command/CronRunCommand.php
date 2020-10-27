@@ -22,9 +22,6 @@ class CronRunCommand extends ContainerAwareCommand
      */
     private $logger;
 
-    /**
-     * @injectService $logger @logger
-     */
     public function __construct(LoggerInterface $logger)
     {
         parent::__construct();
