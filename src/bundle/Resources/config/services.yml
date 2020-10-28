@@ -7,3 +7,10 @@ services:
         arguments:
             - '%kernel.environment%'
             - '@ezpublish.siteaccess'
+
+    ezplatform.console.command.run:
+        class: EzSystems\EzPlatformCronBundle\Command\CronRunCommand
+        arguments:
+            $logger: '@monolog.logger.cronjob'
+        tags:
+            - { name: console.command }

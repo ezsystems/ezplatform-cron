@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
 namespace EzSystems\EzPlatformCronBundle\Command;
@@ -13,9 +13,21 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Psr\Log\LoggerInterface;
 
 class CronRunCommand extends ContainerAwareCommand
 {
+    /**
+     * @var \Psr\Log\LoggerInterface
+     */
+    private $logger;
+
+    public function __construct(LoggerInterface $logger)
+    {
+        parent::__construct();
+        $this->logger = $logger;
+    }
+
     protected function configure()
     {
         $this
@@ -46,6 +58,31 @@ EOT
         $cron->setExecutor(new Executor());
         $cron->setResolver($resolver);
 
-        $cron->run();
+        $reports = $cron->run();
+
+        while ($cron->isRunning()) {
+            usleep(10000);
+        }
+
+        if ($this->logger) {
+            foreach ($reports->getReports() as $report) {
+                $process = $report->getJob()->getProcess();
+                $extraInfo = [
+                    'command' => $process->getCommandLine(),
+                    'exitCode' => $process->getExitCode(),
+                ];
+                foreach ($report->getOutput() as $reportOutput) {
+                    $this->logger->info($reportOutput, $extraInfo);
+                }
+                if (!$report->isSuccessful()) {
+                    foreach ($report->getError() as $reportError) {
+                        $reportError = trim($reportError);
+                        if (!empty($reportError)) {
+                            $this->logger->error($reportError, $extraInfo);
+                        }
+                    }
+                }
+            }
+        }
     }
 }
