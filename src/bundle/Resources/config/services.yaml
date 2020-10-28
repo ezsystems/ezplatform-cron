@@ -14,6 +14,7 @@ services:
 
     EzSystems\EzPlatformCronBundle\Command\CronRunCommand:
         arguments:
+            $logger: '@monolog.logger.cronjob'
             $cronJobsRegistry: '@ezplatform.cron.registry.cronjobs'
         tags:
             - { name: 'console.command', command: 'ezplatform:cron:run' }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
 declare(strict_types=1);
@@ -10,22 +10,28 @@ namespace EzSystems\EzPlatformCronBundle\Command;
 
 use Cron\Cron;
 use Cron\Executor\Executor;
+use Cron\Report\CronReport;
 use Cron\Resolver\ArrayResolver;
 use EzSystems\EzPlatformCronBundle\Registry\CronJobsRegistry;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Psr\Log\LoggerInterface;
 
 final class CronRunCommand extends Command
 {
     /** @var \EzSystems\EzPlatformCronBundle\Registry\CronJobsRegistry */
     private $cronJobsRegistry;
 
-    public function __construct(CronJobsRegistry $cronJobsRegistry, ?string $name = null)
+    /** @var \Psr\Log\LoggerInterface */
+    private $logger;
+
+    public function __construct(LoggerInterface $logger, CronJobsRegistry $cronJobsRegistry, ?string $name = null)
     {
         parent::__construct($name);
 
+        $this->logger = $logger;
         $this->cronJobsRegistry = $cronJobsRegistry;
     }
 
@@ -57,8 +63,39 @@ EOT
         $cron->setExecutor(new Executor());
         $cron->setResolver($resolver);
 
-        $cron->run();
+        $reports = $cron->run();
+
+        while ($cron->isRunning()) {
+            usleep(10000);
+        }
+
+        if ($this->logger) {
+            /** @var \Cron\Report\CronReport $reports */
+            $this->logReportsOutput($reports);
+        }
 
         return 0;
+    }
+
+    private function logReportsOutput(CronReport $reports): void
+    {
+        foreach ($reports->getReports() as $report) {
+            $process = $report->getJob()->getProcess();
+            $extraInfo = [
+                'command' => $process->getCommandLine(),
+                'exitCode' => $process->getExitCode(),
+            ];
+            foreach ($report->getOutput() as $reportOutput) {
+                $this->logger->info($reportOutput, $extraInfo);
+            }
+            if (!$report->isSuccessful()) {
+                foreach ($report->getError() as $reportError) {
+                    $reportError = trim($reportError);
+                    if (!empty($reportError)) {
+                        $this->logger->error($reportError, $extraInfo);
+                    }
+                }
+            }
+        }
     }
 }
