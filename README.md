@@ -1,10 +1,10 @@
 # ezplatform-cron
 
 
-This package exposes [cron/cron](https://github.com/Cron/Cron) package for use in eZ Platform (or just plain Symfony) via a simle command
+This package exposes [cron/cron](https://github.com/Cron/Cron) package for use in eZ Platform (or just plain Symfony) via a simple command
 `ezplatform:cron:run`.
 
-This is *not* a replacement for [cron/cron-bundle](https://github.com/Cron/Symfony-Bundle) but rather a simpler alternative to it which can more esaily grow into focusing more on eZ Platform needs in the future including e.g. support for handling cron jobs across a cluster install _(separating jobs that should run on all nodes vs jobs that should only be run on one at a time and a lock system to go with it for instance)_.
+This is *not* a replacement for [cron/cron-bundle](https://github.com/Cron/Symfony-Bundle) but rather a simpler alternative to it which can more easily grow into focusing more on eZ Platform needs in the future including e.g. support for handling cron jobs across a cluster install _(separating jobs that should run on all nodes vs jobs that should only be run on one at a time and a lock system to go with it for instance)_.
 
 
 
