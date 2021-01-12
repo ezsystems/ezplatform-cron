@@ -12,6 +12,7 @@ use Cron\Cron;
 use Cron\Executor\Executor;
 use Cron\Report\CronReport;
 use Cron\Resolver\ArrayResolver;
+use eZ\Bundle\EzPublishCoreBundle\Command\BackwardCompatibleCommand;
 use EzSystems\EzPlatformCronBundle\Registry\CronJobsRegistry;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -19,7 +20,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Psr\Log\LoggerInterface;
 
-final class CronRunCommand extends Command
+final class CronRunCommand extends Command implements BackwardCompatibleCommand
 {
     /** @var \EzSystems\EzPlatformCronBundle\Registry\CronJobsRegistry */
     private $cronJobsRegistry;
@@ -41,7 +42,8 @@ final class CronRunCommand extends Command
             ->setDefinition([
                 new InputOption('category', null, InputOption::VALUE_REQUIRED, 'Job category to run', 'default'),
             ])
-            ->setName('ezplatform:cron:run')
+            ->setName('ibexa:cron:run')
+            ->setAliases(['ezplatform:cron:run'])
             ->setDescription('Perform one-time cron tasks run.')
             ->setHelp(
                 <<<EOT
@@ -97,5 +99,13 @@ EOT
                 }
             }
         }
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getDeprecatedAliases(): array
+    {
+        return ['ezplatform:cron:run'];
     }
 }
