@@ -52,14 +52,25 @@ class CronJobsRegistry
 
     public function addCronJob(Command $command, string $schedule = null, string $category = self::DEFAULT_CATEGORY, string $options = ''): void
     {
-        $command = sprintf('%s %s %s %s --siteaccess=%s --env=%s',
-            $this->executable,
-            $_SERVER['SCRIPT_NAME'],
-            $command->getName(),
-            $options,
-            $this->siteaccess->name,
-            $this->environment
-        );
+        if (strpos($options,'--siteaccess') === false) {
+            $command = sprintf('%s %s %s %s --siteaccess=%s --env=%s',
+                $this->executable,
+                $_SERVER['SCRIPT_NAME'],
+                $command->getName(),
+                $options,
+                $this->siteaccess->name,
+                $this->environment
+            );
+        }
+        else {
+            $command = sprintf('%s %s %s %s --env=%s',
+                $this->executable,
+                $_SERVER['SCRIPT_NAME'],
+                $command->getName(),
+                $options,
+                $this->environment
+            );
+        }
 
         $job = new ShellJob();
         $job->setSchedule(new CrontabSchedule($schedule));
