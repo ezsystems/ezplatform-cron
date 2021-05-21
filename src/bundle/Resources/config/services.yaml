@@ -8,6 +8,7 @@ services:
 
     ezplatform.cron.registry.cronjobs:
         class: '%ezplatform.cron.registry.cronjobs.class%'
+        lazy: true
         arguments:
             - '%kernel.environment%'
             - '@ezpublish.siteaccess'
