@@ -31,11 +31,11 @@
         "symfony/console": "^5.0",
         "symfony/config": "^5.0",
         "symfony/process": "^5.0",
-        "ezsystems/ezplatform-kernel": "^2.0@dev"
+        "ezsystems/ezplatform-kernel": "^4.0@dev"
     },
     "require-dev": {
         "ezsystems/ezplatform-code-style": "^0.2.0",
-        "ezsystems/doctrine-dbal-schema": "^2.0@dev",
+        "ezsystems/doctrine-dbal-schema": "^4.0@dev",
         "friendsofphp/php-cs-fixer": "^2.16.3",
         "phpunit/phpunit": "^6.4 || ^7.0"
     },
